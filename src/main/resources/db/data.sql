@@ -1,0 +1,1 @@
+insert into tb_category (name, status) values ('COMEDY', true), ('COMICS', false);

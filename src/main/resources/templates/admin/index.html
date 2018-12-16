@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/master}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Index Title</title>
+</head>
+<body>
+
+
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" layout:fragment="content" id="content-content">
+
+
+</div>
+
+<script layout:fragment="script">
+
+    $(document).ready(function () {
+        // alert(1999);
+
+        $('#dashboard1').on('click', function () {
+            $.ajax({
+                url: '/dashboard1-ajax',
+                method: 'GET',
+                success: function (response) {
+                    $('#content-content').empty();
+                    $('#content-content').append(response);
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+
+        $('#dashboard2').on('click', function () {
+            $.ajax({
+                url: '/dashboard2-ajax',
+                method: 'GET',
+                success: function (response) {
+                    $('#content-content').empty();
+                    $('#content-content').append(response);
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+
+
+
+    });
+
+</script>
+
+
+</body>
+</html>
+
+
