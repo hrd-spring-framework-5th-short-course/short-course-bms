@@ -3,9 +3,8 @@ package com.example.shortcoursebms.repositories;
 import com.example.shortcoursebms.models.Book;
 import com.example.shortcoursebms.models.Category;
 import com.example.shortcoursebms.repositories.providers.CategoryProvider;
+import com.example.shortcoursebms.utilities.Paginate;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.jdbc.AbstractSQL;
-import org.apache.ibatis.mapping.StatementType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,6 +20,22 @@ public interface CategoryRepository {
                     many = @Many(select = "getAllBookByCategory"))
 })
     List<Category> getAllCategory(String name);
+
+
+    @SelectProvider(type = CategoryProvider.class, method = "getAllCategoryPaginateProvider")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "created_at", property = "createdAt"),
+            @Result(column = "id", property = "books",
+                    many = @Many(select = "getAllBookByCategory"))
+    })
+    List<Category> getAllCategoryPaginate(@Param("name") String name,
+                                          @Param("paginate") Paginate paginate);
+
+
+    @Select("select count(*) from tb_category where name ilike '%' || #{name} || '%'")
+    int count(String name);
+
 
     @Select("SELECT * FROM tb_book where cate_id = #{id}")
     @Results({

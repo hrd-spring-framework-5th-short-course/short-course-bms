@@ -91,6 +91,21 @@
                         </table>
                     </div>
                     <!-- /.box-body -->
+
+                    <!--.box-footer-->
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li th:classappend="${paginate.page == 1 ? 'disabled' : ''}"><a th:href="@{/admin/categories/all/paginate(page=1, name=${filter})}">First</a></li>
+                            <li th:classappend="${paginate.page == 1 ? 'disabled' : ''}"><a th:href="@{/admin/categories/all/paginate(page=${paginate.previousPage}, name=${filter})}">«</a></li>
+
+                            <li th:classappend="${paginate.page == i} ? 'active' : ''" th:each="i: ${#numbers.sequence(paginate.startPage, paginate.endPage)}">
+                                <a th:text="${i}" th:href="@{/admin/categories/all/paginate(page=${i}, name=${filter})}">1</a>
+                            </li>
+
+                            <li th:classappend="${paginate.page == paginate.totalPages ? 'disabled' : ''}"><a th:href="@{/admin/categories/all/paginate(page=${paginate.nextPage}, name=${filter})}">»</a></li>
+                            <li th:classappend="${paginate.page == paginate.totalPages ? 'disabled' : ''}"><a th:href="@{/admin/categories/all/paginate(page=${paginate.totalPages}, name=${filter})}">Last</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <!-- /.box -->
             </div>
@@ -167,9 +182,9 @@
         $('#btn-search-cate').on('click', function () {
             var text_to_search = $('#table_search').val();
             if (text_to_search == '')
-                window.location = '/admin/categories/all';
+                window.location = '/admin/categories/all/paginate';
             else
-                window.location = '/admin/categories/all?name=' + text_to_search;
+                window.location = '/admin/categories/all/paginate?name=' + text_to_search;
         });
 
 

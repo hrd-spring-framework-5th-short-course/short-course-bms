@@ -1,12 +1,16 @@
-package com.example.shortcoursebms.models;
+package com.example.shortcoursebms.models.forms;
 
+import com.example.shortcoursebms.models.Author;
+import com.example.shortcoursebms.models.Category;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Book {
+public class BookForm {
 
     private Integer id;
 
@@ -14,22 +18,24 @@ public class Book {
 
     private String ISBN;
 
+
     private String bookImage;
 
-    private List<Author> authors;
+    private List<Integer> authors = new ArrayList<>();
 
     private Category category;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date publishDate;
 
     private boolean status;
 
     private Timestamp createdAt;
 
-    public Book() {
+    public BookForm() {
     }
 
-    public Book(Integer id, String title, String ISBN, String bookImage, List<Author> authors, Category category, Date publishDate, boolean status, Timestamp createdAt) {
+    public BookForm(Integer id, String title, String ISBN, String bookImage, List<Integer> authors, Category category, Date  publishDate, boolean status, Timestamp createdAt) {
         this.id = id;
         this.title = title;
         this.ISBN = ISBN;
@@ -73,11 +79,11 @@ public class Book {
         this.bookImage = bookImage;
     }
 
-    public List<Author> getAuthors() {
+    public List<Integer> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(List<Integer> authors) {
         this.authors = authors;
     }
 

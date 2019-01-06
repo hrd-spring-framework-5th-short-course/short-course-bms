@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/master}">
+
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">All Book - Page</title>
+
+    <style>
+        .imgClass {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" layout:fragment="content">
+
+    <section class="content-header">
+
+        <h1>
+            All Book
+        </h1>
+
+
+    </section>
+
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">សៀវភៅទាំងអស់</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+
+                    <div class="box-body">
+                        <table id="book-table" class="table table-bordered table-hover" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Book Cover</th>
+                                <th>Title</th>
+                                <th>ISBN</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script layout:fragment="script">
+
+    (function () {
+        // $('#table_search').val(${#httpServletRequest.getParameter('error')});
+    })();
+
+    $(document).ready(function() {
+
+        var filter = function filterData() {
+            var settings = $("#book-table").dataTable().fnSettings();
+            console.log('datatable_settings: ', settings);
+
+            //TODO: prepare data for passing to server!
+            if (settings._iDisplayLength == -1)
+                settings._iDisplayLength = settings._iRecordsTotal
+            var obj = {
+                "draw": settings.iDraw,
+                "page": (settings._iDisplayStart / settings._iDisplayLength) + 1,
+                "limit": settings._iDisplayLength,
+                // "filter_name": settings.oPreviousSearch.sSearch
+            };
+            console.log('filter', obj);
+            return obj;
+        };
+
+        $('#book-table').DataTable( {
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                'url': '/api/v1/books',
+                'type': 'GET',
+                //TODO: Custom parameter sent to server!
+                'data': filter,
+                //TODO: Custom return parameter from server!
+                'dataFilter': function (response) {
+                    var response = jQuery.parseJSON(response);
+                    console.log(response);
+                    //TODO: response pattern for DATATABLE
+                    var jsonDatatable = {
+                        "draw": response.paging.draw,
+                        "recordsTotal": response.paging.total_count,
+                        "recordsFiltered": response.paging.total_count,
+                        "data": response.data
+                    };
+
+                    console.log(response.data);
+                    return JSON.stringify(jsonDatatable); // return JSON string
+                }
+            },
+
+            columns: [
+                {data: 'id', name: 'id', sortable: false, searchable: false},
+                {data: 'bookImage', name: 'bookImage', sortable: false, searchable: false},
+                {data: 'title', name: 'title'},
+                {data: 'isbn', name: 'isbn'}
+            ],
+
+            columnDefs: [
+                {
+                    targets: "_all",
+                    orderable: false,
+                    sortable: false
+                },
+                {
+                    targets: 0,
+                    // "visible": false,
+                    sortable: false
+                },
+                {
+                    targets: 1,
+                    className: 'imgClass',
+                    render: function (data, type, object) {
+                        return `<img style="width: 50px; height: 50px" src=/images/${object.bookImage}>`;
+                    }
+                },
+                {
+                    targets: 2,
+                    sortable: false,
+                    // className: 'dt-1',
+
+                    className: 'imgClass',
+                    render: function (data, type, object) {
+                        return `<span class="bg-aqua-gradient">${object.title}</span>`;
+                    }
+                },
+                {
+                    targets: 4,
+                    render: function (data, type, object) {
+                        return '<a class="btn-floating btn-danger btn-sm" type="button" role="button">' +
+                            '<i class="fa fa-trash"></i></a>&nbsp;&nbsp;&nbsp;' +
+                            '<a href="/article/update/'+ object.id +'" class="btn-floating btn-primary btn-sm" type="button" role="button">' +
+                            '<i class="fa fa-edit"></i></a>';
+                    }
+                }
+            ],
+
+            lengthMenu: [ [5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"] ] // the space between [ [ is important see the link ==> https://github.com/thymeleaf/thymeleaf/issues/548
+        });
+    });
+
+</script>
+
+
+</body>
+</html>
+
+

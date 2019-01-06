@@ -1,6 +1,7 @@
 package com.example.shortcoursebms.repositories.providers;
 
 import com.example.shortcoursebms.models.Category;
+import com.example.shortcoursebms.utilities.Paginate;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -20,6 +21,22 @@ public class CategoryProvider {
 
 //            WHERE("c.status is TRUE");
 
+        }}.toString();
+    }
+
+
+    public String getAllCategoryPaginateProvider(@Param("name") String name,
+                                                 @Param("paginate") Paginate paginate) {
+        return new SQL() {{
+
+            SELECT("*");
+            FROM("tb_category c");
+
+            if (name != null && !name.isEmpty()){
+                WHERE("c.name ilike '%' || #{name} || '%' ");
+            }
+            ORDER_BY("id desc LIMIT #{paginate.limit} OFFSET #{paginate.offset}");
+//            WHERE("c.status is TRUE");
         }}.toString();
     }
 

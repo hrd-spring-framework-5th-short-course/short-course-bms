@@ -1,13 +1,14 @@
 package com.example.shortcoursebms.controllers.restcontrollers;
 
 import com.example.shortcoursebms.models.Book;
+import com.example.shortcoursebms.models.forms.BookForm;
 import com.example.shortcoursebms.models.responses.BookResponse;
 import com.example.shortcoursebms.services.BookService;
+import com.example.shortcoursebms.utilities.Paginate;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,19 +24,52 @@ public class BookRestController {
         this.bookService = bookService;
     }
 
-
-    @GetMapping("")
-    public ResponseEntity<Map<String, Object>> getAllBook() {
+    @PostMapping("")
+    public ResponseEntity<Map<String, Object>> save(@RequestBody BookForm bookForm) {
 
         Map<String, Object> response = new HashMap<>();
 
-        List<Book> books = this.bookService.getAllBook();
+        System.out.println(bookForm);
+
+        Boolean status = this.bookService.save(bookForm);
+
+        if (status) {
+
+            this.bookService.saveBookAuthor(bookForm);
+
+            response.put("status", true);
+            response.put("message", "Save Books Successfully!!!");
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        }
+        else {
+            response.put("status", false);
+            response.put("message", "Save Books Failed!!!");
+            response.put("version", "V1");
+
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+        }
+    }
+
+
+    @GetMapping("")
+    public ResponseEntity<Map<String, Object>> getAllBook(Paginate paginate) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        List<Book> books = this.bookService.getAllBook(paginate);
+        int totalRecord = this.bookService.count();
 
         if (books.size() > 0) {
+
+            paginate.setTotalCount(totalRecord);
 
             response.put("status", true);
             response.put("message", "Get Books Successfully!!!");
             response.put("data", books);
+            response.put("paging", paginate);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
 

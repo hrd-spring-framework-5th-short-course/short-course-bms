@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/master}">
+
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Add Book - Page</title>
+</head>
+<body>
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" layout:fragment="content">
+
+    <section class="content-header">
+
+        <h1>
+            Add Book
+        </h1>
+
+
+    </section>
+
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">កន្លែងបន្ថែមសៀវភៅ</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" action="/admin/books/add/submit" method="post" enctype="multipart/form-data">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input th:field="${bookForm.title}" type="text" class="form-control" placeholder="Enter title">
+                            </div>
+
+                            <div class="form-group">
+                                <label>ISBN</label>
+                                <input th:field="${bookForm.ISBN}" type="text" class="form-control" placeholder="Enter book ISBN">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select class="form-control" name="category.id">
+                                    <option th:value="${category.id}" th:each="category: ${categories}" th:text="${category.getName()}">option 1</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Authors</label>
+
+                                <select style="width: 100%" class="js-example-basic-multiple" name="authors" multiple="multiple">
+                                    <option th:each="author: ${authors}"  th:value="${author.id}" th:text="${author.name}">Alabama</option>
+                                </select>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>Publish Date</label>
+                                <input th:field="${bookForm.publishDate}" type="date" class="form-control" placeholder="Enter book ISBN">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputFile">Choose book cover</label>
+                                <input type="file" name="cover" id="exampleInputFile">
+
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script layout:fragment="script">
+
+    (function () {
+        // $('#table_search').val(${#httpServletRequest.getParameter('error')});
+    })();
+
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2();
+    });
+
+</script>
+
+
+</body>
+</html>
+
+

@@ -3,6 +3,7 @@ package com.example.shortcoursebms.services.impl;
 import com.example.shortcoursebms.models.Category;
 import com.example.shortcoursebms.repositories.CategoryRepository;
 import com.example.shortcoursebms.services.CategoryService;
+import com.example.shortcoursebms.utilities.Paginate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,16 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> getAllCategory(String name) {
         return this.categoryRepository.getAllCategory(name);
+    }
+
+    @Override
+    public List<Category> getAllCategoryPaginate(String name, Paginate paginate) {
+        return this.categoryRepository.getAllCategoryPaginate(name, paginate);
+    }
+
+    @Override
+    public int count(String name) {
+        return this.categoryRepository.count(name);
     }
 
     @Override
