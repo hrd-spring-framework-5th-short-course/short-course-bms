@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface BookService {
 
+
+    Book getOneBook(Integer id);
+
     List<Book> getAllBook(Paginate paginate);
 
     int count();
@@ -17,4 +20,13 @@ public interface BookService {
 
     boolean save(BookForm bookForm);
     boolean saveBookAuthor(BookForm bookForm);
+
+    boolean updateBookAuthor(Integer newAuthorId, Integer oldAuthorId, Integer bookId);
+
+    boolean update(BookForm bookForm);
+
+    boolean deleteBookAuthor(Integer id);
+
+
+    boolean delete(Integer id);
 }

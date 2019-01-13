@@ -18,6 +18,11 @@ public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
 
     @Override
+    public Book getOneBook(Integer id) {
+        return this.bookRepository.getOneBook(id);
+    }
+
+    @Override
     public boolean save(BookForm bookForm) {
         return this.bookRepository.save(bookForm);
     }
@@ -25,6 +30,21 @@ public class BookServiceImpl implements BookService {
     @Override
     public boolean saveBookAuthor(BookForm bookForm) {
         return this.bookRepository.saveBookAuthor(bookForm);
+    }
+
+    @Override
+    public boolean update(BookForm bookForm) {
+        return this.bookRepository.update(bookForm);
+    }
+
+    @Override
+    public boolean updateBookAuthor(Integer newAuthorId, Integer oldAuthorId, Integer bookId) {
+        return this.bookRepository.updateBookAuthor(newAuthorId, oldAuthorId, bookId);
+    }
+
+    @Override
+    public boolean deleteBookAuthor(Integer id) {
+        return this.bookRepository.deleteBookAuthor(id);
     }
 
     @Override
@@ -41,5 +61,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookResponse> getAllBookResponse() {
         return this.bookRepository.getAllBookResponse();
+    }
+
+    @Override
+    public boolean delete(Integer id) {
+        return this.bookRepository.delete(id);
     }
 }

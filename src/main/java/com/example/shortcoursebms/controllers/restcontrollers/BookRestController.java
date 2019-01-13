@@ -5,7 +5,6 @@ import com.example.shortcoursebms.models.forms.BookForm;
 import com.example.shortcoursebms.models.responses.BookResponse;
 import com.example.shortcoursebms.services.BookService;
 import com.example.shortcoursebms.utilities.Paginate;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -115,6 +114,28 @@ public class BookRestController {
     }
 
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Integer id) {
 
+        Map<String, Object> response = new HashMap<>();
+
+       boolean status = this.bookService.delete(id);
+
+        if (status) {
+
+            response.put("status", true);
+            response.put("message", "Delete Books Successfully!!!");
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } else {
+
+            response.put("status", false);
+            response.put("message", "Delete Books Failed!!!");
+
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+        }
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.example.shortcoursebms.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -20,6 +21,7 @@ public class Book {
 
     private Category category;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date publishDate;
 
     private boolean status;

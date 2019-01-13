@@ -37,8 +37,24 @@ public interface BookRepository {
     })
     List<Book> getAllBook();*/
 
+    @Select("select * from tb_book where status is true AND id = #{id}")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "cate_id", property = "category.id"),
+            @Result(column = "isbn", property = "ISBN"),
+            @Result(column = "book_image", property = "bookImage"),
+            @Result(column = "publish_date", property = "publishDate"),
+            @Result(column = "created_at", property = "createdAt"),
 
-    @Select("select * from tb_book limit #{limit} offset #{offset}")
+            @Result(column = "cate_id", property = "category", one = @One(select = "getCategoryById")),
+            @Result(column = "id", property = "authors", many = @Many(select = "getAuthorsByBookId"))
+
+    })
+    Book getOneBook(Integer id);
+
+
+
+    @Select("select * from tb_book where status is true order by id desc limit #{limit} offset #{offset}")
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "cate_id", property = "category.id"),
@@ -53,7 +69,7 @@ public interface BookRepository {
     })
     List<Book> getAllBook(Paginate paginate);
 
-    @Select("select count(*) from tb_book")
+    @Select("select count(*) from tb_book where status is true")
     int count();
 
     @Select("select * from tb_category where id = #{cate_id}")
@@ -95,5 +111,21 @@ public interface BookRepository {
             "</script>"})
     boolean saveBookAuthor(BookForm bookForm);
 
+
+    @Update("update tb_book set title = #{title}, " +
+            "isbn=#{ISBN}, " +
+            "cate_id=#{category.id}, " +
+            "book_image=#{bookImage}, "+
+            "publish_date=#{publishDate} where id = #{id}")
+    boolean update(BookForm bookForm);
+
+    @Delete("delete from tb_book_author where book_id = #{id}")
+    boolean deleteBookAuthor(Integer id);
+
+    @Update("update tb_book_author set author_id = #{new_author_id} where book_id=#{book_id} and author_id=#{old_author_id}")
+    boolean updateBookAuthor(@Param("new_author_id") Integer newAuthorId,@Param("old_author_id") Integer oldAuthorId,@Param("book_id") Integer bookId);
+
+    @Delete("update tb_book set status=false where id = #{id}")
+    boolean delete(Integer id);
 
 }
