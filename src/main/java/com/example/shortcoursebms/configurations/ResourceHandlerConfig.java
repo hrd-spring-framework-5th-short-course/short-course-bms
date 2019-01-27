@@ -3,10 +3,10 @@ package com.example.shortcoursebms.configurations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
+@EnableWebMvc
 @PropertySource("classpath:/project_file.properties")
 public class ResourceHandlerConfig implements WebMvcConfigurer {
 
@@ -29,7 +29,15 @@ public class ResourceHandlerConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/resources/alte/**")
                 .addResourceLocations("classpath:/static/admin-lte/");
 
+
+        registry.addResourceHandler("/swagger/**")
+                .addResourceLocations("classpath:/static/swagger-v2.1.3/dist/");
+
     }
 
-
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/login-page")
+                .setViewName("login/login-form");
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.shortcoursebms.repositories;
 
+import com.example.shortcoursebms.models.Role;
 import com.example.shortcoursebms.models.User;
 import com.example.shortcoursebms.repositories.providers.UserProvider;
 import org.apache.ibatis.annotations.*;
@@ -9,6 +10,17 @@ import java.util.List;
 
 @Repository
 public interface UserRepository {
+
+    @Select("select * from tb_user where username = #{usernameOrEmail} OR email = #{usernameOrEmail}")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "created_at", property = "createdAt"),
+            @Result(column = "id", property = "roles", many = @Many(select = "com.example.shortcoursebms.repositories.RoleRepository.getRoleByUserId"))
+    })
+    User loadUserByUsername(@Param("usernameOrEmail") String usernameOrEmail);
+
+
+
 
 //    @Select("select *, created_at as createdAt from tb_user")
 //    @Select("select * from tb_user")

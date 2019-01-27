@@ -173,12 +173,14 @@
 
 </div>
 
-<script layout:fragment="script">
+<script layout:fragment="script" th:inline="javascript">
 
     (function () {
         // $('#table_search').val(${#httpServletRequest.getParameter('error')});
     })();
 
+
+    var apiKey = /*[[${@environment.getProperty('api.key')}]]*/ '';
 
     $(document).ready(function() {
         var the_table;
@@ -220,7 +222,11 @@
             "processing": true,
             "serverSide": true,
             "ajax": {
-                'url': '/api/v1/books',
+                'url': 'http://localhost:2020/api/v1/books',
+                'headers': {
+                    'Authorization': apiKey,
+                    'ContentType': 'application/json'
+                },
                 'type': 'GET',
                 //TODO: Custom parameter sent to server!
                 'data': filter,

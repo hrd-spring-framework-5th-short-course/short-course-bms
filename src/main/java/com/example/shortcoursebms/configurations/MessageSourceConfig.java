@@ -13,7 +13,7 @@ public class MessageSourceConfig {
 
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 
-        messageSource.setBasenames("i18n/index/index", "messages");
+        messageSource.setBasenames("i18n/index/index", "messages", "bms");
         messageSource.setDefaultEncoding("UTF-8");
 
         return messageSource;
