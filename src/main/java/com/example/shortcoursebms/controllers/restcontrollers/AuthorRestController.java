@@ -39,13 +39,15 @@ public class AuthorRestController {
         } else {
             response.put("message", "Get all failed!");
             response.put("status", false);
-
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-
-
-
     }
 
+
+    @GetMapping("/list")
+    public List<Author> getAllListAuthors() {
+        return this.authorService.getAll();
+
+    }
 
 }

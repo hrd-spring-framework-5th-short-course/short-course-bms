@@ -20,6 +20,8 @@ import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import javax.sql.DataSource;
+
 @EnableWebSecurity
 public class ApiSecurityConfig {
 
@@ -65,6 +67,7 @@ public class ApiSecurityConfig {
     @Configuration
     public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
+
         @Autowired
         public PasswordEncoder passwordEncoder;
 
@@ -91,7 +94,13 @@ public class ApiSecurityConfig {
                 .and()
                 .withUser("admin").password("admin").roles("ADMIN", "API");*/
 
-            auth.userDetailsService(userDetailsService);
+            auth
+                    .userDetailsService(userDetailsService)
+                    .passwordEncoder(passwordEncoder);
+
+//            auth.jdbcAuthentication()
+//                    .passwordEncoder(passwordEncoder)
+//                    .dataSource(dataSource);
 
         }
 
@@ -115,6 +124,7 @@ public class ApiSecurityConfig {
                     .antMatchers("/admin/**").hasRole("ADMIN")
 
                     .anyRequest().authenticated()
+
                     .antMatchers("/login").permitAll();
 
             http
