@@ -3,6 +3,7 @@ package com.example.shortcoursebms.configurations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
@@ -40,4 +41,16 @@ public class ResourceHandlerConfig implements WebMvcConfigurer {
         registry.addViewController("/login-page")
                 .setViewName("login/login-form");
     }
+
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowCredentials(true)
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .allowedOrigins("*");
+    }
+
+
 }

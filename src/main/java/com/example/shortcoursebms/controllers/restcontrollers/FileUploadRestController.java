@@ -6,9 +6,8 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/upload")
@@ -30,8 +29,12 @@ public class FileUploadRestController {
     }
 
     @PostMapping("")
-    public String upload(@ApiParam("file") MultipartFile file) {
-        return this.fileUploadService.upload(file, "");
+    public Map<String, Object> upload(@ApiParam("file") MultipartFile file) {
+
+        Map<String , Object> response = new HashMap<>();
+        String filename = this.fileUploadService.upload(file,"");
+        response.put("filename", filename);
+        return response;
     }
 
 
