@@ -45,6 +45,7 @@ public interface BookRepository {
             @Result(column = "book_image", property = "bookImage"),
             @Result(column = "publish_date", property = "publishDate"),
             @Result(column = "created_at", property = "createdAt"),
+            @Result(column = "title", property = "title"),
 
             @Result(column = "cate_id", property = "category", one = @One(select = "getCategoryById")),
             @Result(column = "id", property = "authors", many = @Many(select = "getAuthorsByBookId"))

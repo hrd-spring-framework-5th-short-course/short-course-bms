@@ -11,7 +11,7 @@
     <groupId>com.example</groupId>
     <artifactId>short-course-bms</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>short-course-bms</name>
     <description>Demo project for Spring Boot</description>
 

@@ -59,3 +59,10 @@ create table tb_user
 );
 
 
+create table tb_category_local
+(
+    id   serial not null,
+    name varchar
+);
+
+

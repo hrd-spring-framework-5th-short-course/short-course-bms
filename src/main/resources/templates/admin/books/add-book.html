@@ -33,6 +33,13 @@
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form role="form" action="/admin/books/add/submit" method="post" enctype="multipart/form-data">
+
+                        <input
+                                type="hidden"
+                                th:name="${_csrf.parameterName}"
+                                th:value="${_csrf.token}" />
+
+
                         <div class="box-body">
                             <div class="form-group">
                                 <label>Title</label>

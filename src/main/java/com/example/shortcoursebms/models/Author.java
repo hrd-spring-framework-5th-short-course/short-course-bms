@@ -1,6 +1,5 @@
 package com.example.shortcoursebms.models;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Timestamp;
 import java.util.List;
 

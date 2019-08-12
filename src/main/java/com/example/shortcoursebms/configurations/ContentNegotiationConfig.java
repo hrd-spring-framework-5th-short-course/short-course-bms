@@ -8,12 +8,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class ContentNegotiationConfig implements WebMvcConfigurer {
 
-
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 
         configurer
-                .defaultContentType(MediaType.APPLICATION_XML)
+                .defaultContentType(MediaType.APPLICATION_JSON)
                 .favorParameter(false)
                 .favorPathExtension(true)
                 .parameterName("mediaType")

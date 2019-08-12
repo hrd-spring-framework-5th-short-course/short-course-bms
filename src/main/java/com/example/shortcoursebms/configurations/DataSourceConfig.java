@@ -1,6 +1,7 @@
 package com.example.shortcoursebms.configurations;
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -15,37 +16,40 @@ import javax.sql.DataSource;
 @MapperScan({"com.example.shortcoursebms.repositories"})
 public class DataSourceConfig {
 
-    @Bean("datasource")
-    @Profile("pgsql")
-    public DataSource dataSource() {
+//    @Bean("datasource")
+//    @Profile("pgsql")
+//    public DataSource dataSource() {
+//
+//        DriverManagerDataSource managerDataSource = new DriverManagerDataSource();
+//        managerDataSource.setDriverClassName("org.postgresql.Driver");
+//        managerDataSource.setUrl("jdbc:postgresql://localhost:5432/short_course_bms_db");
+//        managerDataSource.setUsername("postgres");
+//        managerDataSource.setPassword("root");
+//
+//        return managerDataSource;
+//    }
 
-        DriverManagerDataSource managerDataSource = new DriverManagerDataSource();
-        managerDataSource.setDriverClassName("org.postgresql.Driver");
-        managerDataSource.setUrl("jdbc:postgresql://localhost:5432/short_course_bms_db");
-        managerDataSource.setUsername("postgres");
-        managerDataSource.setPassword("root");
+//    @Bean("datasource")
+//    @Profile("inMemoryDB")
+//    public DataSource inMemoryDB() {
+//        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+//
+//        builder.setType(EmbeddedDatabaseType.H2);
+//
+//        builder.addScript("db/schema.sql")
+//                .addScript("db/data.sql");
+//
+//        return builder.build();
+//
+//    }
 
-        return managerDataSource;
-    }
 
-    @Bean("datasource")
-    @Profile("inMemoryDB")
-    public DataSource inMemoryDB() {
-        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-
-        builder.setType(EmbeddedDatabaseType.H2);
-
-        builder.addScript("db/schema.sql")
-                .addScript("db/data.sql");
-
-        return builder.build();
-
-    }
-
+    @Autowired
+    private DataSource dataSource;
 
     @Bean
     public DataSourceTransactionManager dataSourceTransactionManager() {
-        return new DataSourceTransactionManager(dataSource());
+        return new DataSourceTransactionManager(dataSource);
     }
 
 

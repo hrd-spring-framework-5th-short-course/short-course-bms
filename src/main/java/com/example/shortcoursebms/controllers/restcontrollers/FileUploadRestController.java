@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 
 @RestController
